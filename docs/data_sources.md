@@ -2,13 +2,17 @@
 
 The workflow uses HDD metadata to map compounds across four feature sources:
 
-| Source | Role |
-| --- | --- |
-| HDD | Compound identifiers, cross-dataset mappings, ATC codes, and MOA labels |
-| GEOM | Molecular descriptors from `WHIM_hp.parquet` |
-| LINCS | Expression signatures from `signatures.parquet` |
-| JUMP | Cell-morphology features from `cpcnn.parquet`, with sample metadata |
-| NCI60 | Drug-response features prepared from a PharmacoSet using PharmacoGx |
+| Source | ORCESTRA release | ORCESTRA `versionInfo.version` | Record | Role |
+| --- | --- | --- | --- | --- |
+| HDD | `HDD_v3` | `3` | [22133259](https://zenodo.org/records/22133259) | Compound mappings, ATC codes, and MOA labels |
+| GEOM | `HDD_v2_GEOM` | `1` | [20019577](https://zenodo.org/records/20019577) | Molecular descriptors from `WHIM_hp.parquet` |
+| LINCS | `HDD_v2_LINCS` | `1` | [20019530](https://zenodo.org/records/20019530) | Expression signatures from `signatures.parquet` |
+| JUMP | `HDD_v2_cpg0016-jump` | `2` | [20028579](https://zenodo.org/records/20028579) | Cell-morphology features from `cpcnn.parquet`, with sample metadata |
+| NCI60 | `NCI60_2026` | `2026` | [21043047](https://zenodo.org/records/21043047) | PharmacoSet response features summarized using `aac_recomputed` |
+
+Release names and version fields are from the public ORCESTRA
+[annotations API](https://orcestra.ca/api/annotations/available) and
+[PharmacoSet API](https://orcestra.ca/api/pset/available).
 
 Download URLs and the NCI60 screen identifier are configured in
 [`config/downloads.yaml`](https://github.com/bhklab/fused-embedding-pipeline/blob/main/config/downloads.yaml).
