@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="James Bannon" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>DNAnexus Deployment - Fused Embedding Pipeline</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "DNAnexus Deployment";
+        var mkdocs_page_input_path = "dnanexus.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fused Embedding Pipeline
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../usage/">Usage</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">DNAnexus Deployment</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#build-and-export-the-container">Build and export the container</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#apple-container-runtime-alternative">Apple container runtime alternative</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#upload-the-image">Upload the image</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#package-and-build-the-applet">Package and build the applet</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#check-a-deployment">Check a deployment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#share-with-collaborators">Share with collaborators</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data_sources/">Data Sources</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../devnotes/">Maintenance</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fused Embedding Pipeline</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">DNAnexus Deployment</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/bhklab/fused-embedding-pipeline/edit/master/docs/dnanexus.md">Edit on fused-embedding-pipeline</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="deploying-the-pipeline-on-dnanexus">Deploying the pipeline on DNAnexus</h1>
+<p>This guide is for maintainers creating or sharing a deployment. For input fields,
+portal operation, outputs, and QC interpretation, see the
+<a href="https://github.com/bhklab/fused-embedding-pipeline#readme">user README</a>.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>A DNAnexus project with billing, permission to create applets and upload files,
+  and the Nextflow entitlement required by the platform.</li>
+<li>Python 3 and the DNAnexus Python SDK and CLI (<code>dxpy</code>). Install with
+  <code>python3 -m pip install --upgrade dxpy</code>, then check <code>dx --version</code>.
+  See the <a href="https://documentation.dnanexus.com/downloads">installation guide</a>.</li>
+<li>Docker with support for building Linux/amd64 images.</li>
+<li>A checkout of the source revision you intend to share.</li>
+</ul>
+<p>Run the commands below from the repository root. Replace <code>project-PROJECT_ID</code>,
+<code>file-IMAGE_ID</code>, and <code>applet-APPLET_ID</code> with your deployment's IDs.</p>
+<h2 id="build-and-export-the-container">Build and export the container</h2>
+<p>Choose an image tag that identifies your software release; <code>v1</code> is an example.</p>
+<pre><code class="language-bash">docker build --platform linux/amd64 -t fused-embedding:v1 .
+mkdir -p data/dnanexus
+docker save -o data/dnanexus/fused-embedding-v1.tar fused-embedding:v1
+</code></pre>
+<p>The Dockerfile installs the Linux Pixi environment from <code>pixi.lock</code> and installs
+PharmacoGx at the GitHub revision pinned by <code>PHARMACOGX_REF</code> in the Dockerfile.
+It checks required Python imports and R exports during the build. Additional R
+package versions are recorded inside the image at <code>/opt/fused/r-packages.csv</code>.
+These R packages are not all captured by the Pixi lockfile, so retain the exact
+built image as the execution artifact.</p>
+<p>The image contains the software environment. Pipeline source and configuration
+are packaged separately into the applet. Rebuild the image when dependencies or
+the R setup change; rebuild the applet when workflow scripts or configuration
+change.</p>
+<h3 id="apple-container-runtime-alternative">Apple container runtime alternative</h3>
+<p>On Apple Silicon, Apple's <code>container</code> runtime can build the same Dockerfile:</p>
+<pre><code class="language-bash">mkdir -p data/dnanexus
+container build --platform linux/amd64 --cpus 4 --memory 6G \
+  -t fused-embedding:v1 .
+container image save --platform linux/amd64 \
+  -o data/dnanexus/fused-embedding-v1.oci.tar fused-embedding:v1
+skopeo --override-os linux --override-arch amd64 copy \
+  oci-archive:data/dnanexus/fused-embedding-v1.oci.tar \
+  docker-archive:data/dnanexus/fused-embedding-v1.tar:fused-embedding:v1
+</code></pre>
+<p>This route requires <code>skopeo</code> to convert the OCI archive to a Docker archive.
+Upload the converted <code>.tar</code>, not the OCI archive.</p>
+<h2 id="upload-the-image">Upload the image</h2>
+<pre><code class="language-bash">dx login
+dx mkdir -p 'project-PROJECT_ID:/containers'
+dx mkdir -p 'project-PROJECT_ID:/applets'
+dx upload data/dnanexus/fused-embedding-v1.tar \
+  --path 'project-PROJECT_ID:/containers/' --brief
+</code></pre>
+<p>Record the returned file ID. Users supply the following string as the applet's
+<code>container_image</code> input:</p>
+<pre><code class="language-text">dx://project-PROJECT_ID:file-IMAGE_ID
+</code></pre>
+<h2 id="package-and-build-the-applet">Package and build the applet</h2>
+<pre><code class="language-bash">bash workflow/scripts/package_dnanexus.sh
+</code></pre>
+<p>The script prints a source directory and its archive. It includes the workflow,
+configuration, and execution scripts, excluding local data and environments.
+Use the <strong>printed directory</strong> in the build command, replacing <code>source.XXXXXX</code>:</p>
+<pre><code class="language-bash">dx build --nextflow data/dnanexus/source.XXXXXX \
+  --profile dnanexus --nextflow-version 25.10 \
+  --extra-args '{&quot;name&quot;:&quot;fused-embedding-pipeline&quot;,&quot;title&quot;:&quot;Fused Embedding Pipeline&quot;,&quot;summary&quot;:&quot;Generate fused molecular embeddings and ATC/MOA quality-control reports.&quot;}' \
+  --destination 'project-PROJECT_ID:/applets/fused-embedding-pipeline'
+</code></pre>
+<p>Explicit metadata supplies the applet's object name, display title, and summary.
+Record the returned applet ID and the source revision. When replacing an existing
+applet, add <code>--archive</code> to retain the previous applet while reviewing the new
+version. Existing applets do not automatically pick up changes in this repository.</p>
+<h2 id="check-a-deployment">Check a deployment</h2>
+<p>Launch through the portal using the README, or run:</p>
+<pre><code class="language-bash">dx run applet-APPLET_ID \
+  -icontainer_image='dx://project-PROJECT_ID:file-IMAGE_ID' \
+  -ioutdir=output -ipreserve_cache=true \
+  --priority high --head-job-on-demand \
+  --destination 'project-PROJECT_ID:/'
+</code></pre>
+<p>Leave <code>raw_data</code> and <code>viability</code> unset to exercise preparation. Check that the head
+job succeeds, embeddings have unique compound IDs and finite values, and QC tables
+and plots are published. Review task resource use and any warnings. To check
+resumption, launch with the same inputs and the explicit session ID in <code>resume</code>,
+and inspect the trace for cached tasks.</p>
+<p>The <code>dnanexus</code> profile enables Docker and supplies process resource requests.
+DNAnexus provides the executor and cloud working directory. Keep <code>outdir</code>
+relative; the job destination determines its parent folder on the platform.</p>
+<h2 id="share-with-collaborators">Share with collaborators</h2>
+<p>Make the applet and Docker archive accessible to the people who will run the
+pipeline. Provide:</p>
+<ul>
+<li>The project and applet location or applet ID.</li>
+<li>The full <code>container_image</code> URI.</li>
+<li>The source revision and image tag or digest identifying the deployment.</li>
+<li>This repository's user guide and any required custom input files.</li>
+</ul>
+<p>Project administrators manage collaborator access. Users need access to the
+applet, image, and supplied inputs, plus permission to execute and save results
+in their destination project. When copying a deployment to another project,
+include its required resources and update project/file references accordingly.
+Do not delete a container archive while applets or users still depend on it.</p>
+<p>Keep deployment-specific IDs, run artifacts, and operational records outside the
+shared source documentation.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://documentation.dnanexus.com/user/running-apps-and-workflows/running-nextflow-pipelines">DNAnexus Nextflow guide</a></li>
+<li><a href="https://documentation.dnanexus.com/developer/apps/app-metadata">DNAnexus app metadata</a></li>
+<li><a href="https://pixi.prefix.dev/latest/deployment/container/">Pixi containers</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../usage/" class="btn btn-neutral float-left" title="Usage"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../data_sources/" class="btn btn-neutral float-right" title="Data Sources">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/bhklab/fused-embedding-pipeline" class="fa fa-code-fork" style="color: #fcfcfc"> fused-embedding-pipeline</a>
+        </span>
+    
+    
+      <span><a href="../usage/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../data_sources/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

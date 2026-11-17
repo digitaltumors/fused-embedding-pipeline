@@ -47,28 +47,18 @@
                 <li class="toctree-l1"><a class="reference internal" href="../usage/">Usage</a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../dnanexus/">DNAnexus Deployment</a>
+                </li>
+              </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Data Sources</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how-to-document-your-data">How to Document Your Data</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#1-external-data-sources">1. External Data Sources</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#2-internalgenerated-data">2. Internal/Generated Data</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#3-data-dictionary">3. Data Dictionary</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a>
-    </li>
     </ul>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../devnotes/">Developer Notes</a>
+                <li class="toctree-l1"><a class="reference internal" href="../devnotes/">Maintenance</a>
                 </li>
               </ul>
       </div>
@@ -95,102 +85,76 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="data-sources">Data Sources</h1>
-<h2 id="overview">Overview</h2>
-<p>This section should document all data sources used in your project.
-Proper documentation ensures reproducibility and helps others
-understand your research methodology.</p>
-<h2 id="how-to-document-your-data">How to Document Your Data</h2>
-<p>For each data source, include the following information:</p>
-<h3 id="1-external-data-sources">1. External Data Sources</h3>
-<ul>
-<li><strong>Name</strong>: Official name of the dataset</li>
-<li><strong>Version/Date</strong>: Version number or access date</li>
-<li><strong>URL</strong>: Link to the data source</li>
-<li><strong>Access Method</strong>: How the data was obtained (direct download, API, etc.)</li>
-<li><strong>Access Date</strong>: When the data was accessed/retrieved</li>
-<li><strong>Data Format</strong>: Format of the data (FASTQ, DICOM, CSV, etc.)</li>
-<li><strong>Citation</strong>: Proper academic citation if applicable</li>
-<li><strong>License</strong>: Usage restrictions and attribution requirements</li>
-</ul>
-<p>Example:</p>
-<pre><code class="language-markdown">## TCGA RNA-Seq Data
-
-- **Name**: The Cancer Genome Atlas RNA-Seq Data
-- **Version**: Data release 28.0 - March 2021
-- **URL**: https://portal.gdc.cancer.gov/
-- **Access Method**: GDC Data Transfer Tool
-- **Access Date**: 2021-03-15
-- **Citation**: The Cancer Genome Atlas Network. (2012). Comprehensive molecular portraits of human breast tumours. Nature, 490(7418), 61-70.
-- **License**: [NIH Genomic Data Sharing Policy](https://sharing.nih.gov/genomic-data-sharing-policy)
-</code></pre>
-<h3 id="2-internalgenerated-data">2. Internal/Generated Data</h3>
-<ul>
-<li><strong>Name</strong>: Descriptive name of the dataset</li>
-<li><strong>Creation Date</strong>: When the data was generated</li>
-<li><strong>Creation Method</strong>: Brief description of how the data was created</li>
-<li><strong>Input Data</strong>: What source data was used</li>
-<li><strong>Processing Scripts</strong>: References to scripts/Github Repo used to generate this data</li>
-</ul>
-<p>Example:</p>
-<pre><code class="language-markdown">## Processed RNA-Seq Data
-- **Name**: Processed RNA-Seq Data for TCGA-BRCA
-- **Creation Date**: 2021-04-01
-- **Creation Method**: Processed using kallisto and DESeq2
-- **Input Data**: FASTQ Data obtained from the SRA database
-- **Processing Scripts**: [GitHub Repo](https://github.com/tcga-brca-rnaseq)
-</code></pre>
-<h3 id="3-data-dictionary">3. Data Dictionary</h3>
-<p>For complex datasets, include a data dictionary that explains:</p>
+                <h1 id="data-sources">Data sources</h1>
+<p>The workflow uses HDD metadata to map compounds across four feature sources:</p>
 <table>
 <thead>
 <tr>
-<th>Column Name</th>
-<th>Data Type</th>
-<th>Description</th>
-<th>Units</th>
-<th>Possible Values</th>
+<th>Source</th>
+<th>ORCESTRA release</th>
+<th>ORCESTRA <code>versionInfo.version</code></th>
+<th>Record</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>patient_id</td>
-<td>string</td>
-<td>Unique patient identifier</td>
-<td>N/A</td>
-<td>TCGA-XX-XXXX format</td>
+<td>HDD</td>
+<td><code>HDD_v3</code></td>
+<td><code>3</code></td>
+<td><a href="https://zenodo.org/records/22133259">22133259</a></td>
+<td>Compound mappings, ATC codes, and MOA labels</td>
 </tr>
 <tr>
-<td>age</td>
-<td>integer</td>
-<td>Patient age at diagnosis</td>
-<td>years</td>
-<td>18-100</td>
+<td>GEOM</td>
+<td><code>HDD_v2_GEOM</code></td>
+<td><code>1</code></td>
+<td><a href="https://zenodo.org/records/20019577">20019577</a></td>
+<td>Molecular descriptors from <code>WHIM_hp.parquet</code></td>
 </tr>
 <tr>
-<td>expression</td>
-<td>float</td>
-<td>Gene expression value</td>
-<td>TPM</td>
-<td>Any positive value</td>
+<td>LINCS</td>
+<td><code>HDD_v2_LINCS</code></td>
+<td><code>1</code></td>
+<td><a href="https://zenodo.org/records/20019530">20019530</a></td>
+<td>Expression signatures from <code>signatures.parquet</code></td>
+</tr>
+<tr>
+<td>JUMP</td>
+<td><code>HDD_v2_cpg0016-jump</code></td>
+<td><code>2</code></td>
+<td><a href="https://zenodo.org/records/20028579">20028579</a></td>
+<td>Cell-morphology features from <code>cpcnn.parquet</code>, with sample metadata</td>
+</tr>
+<tr>
+<td>NCI60</td>
+<td><code>NCI60_2026</code></td>
+<td><code>2026</code></td>
+<td><a href="https://zenodo.org/records/21043047">21043047</a></td>
+<td>PharmacoSet response features summarized using <code>aac_recomputed</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="best-practices">Best Practices</h2>
-<ul>
-<li>Store raw data in <code>data/rawdata/</code> and never modify it</li>
-<li>Store processed data in <code>data/procdata/</code> and all code used to generate it should be in <code>workflow/scripts/</code></li>
-<li>Document all processing steps</li>
-<li>Track data provenance (where data came from and how it was modified)</li>
-<li>Respect data usage agreements and licenses!
-    This is especially important for data that should not be shared publicly</li>
-</ul>
+<p>Release names and version fields are from the public ORCESTRA
+<a href="https://orcestra.ca/api/annotations/available">annotations API</a> and
+<a href="https://orcestra.ca/api/pset/available">PharmacoSet API</a>.</p>
+<p>Download URLs and the NCI60 screen identifier are configured in
+<a href="https://github.com/bhklab/fused-embedding-pipeline/blob/main/config/downloads.yaml"><code>config/downloads.yaml</code></a>.
+Supply a compatible YAML file through the applet's <code>downloads</code> input to override
+those settings. The default sources must be reachable from DNAnexus workers.</p>
+<p>To reuse data, provide <code>raw_data</code> and/or <code>viability</code> using the layout described in
+the <a href="https://github.com/bhklab/fused-embedding-pipeline#reuse-inputs-or-change-model-settings">user guide</a>.
+Custom files must retain the schemas expected by the preprocessing scripts;
+changing a URL alone does not adapt a different dataset schema.</p>
+<p>Embedding coverage depends on compound overlap among the feature sources and
+eligibility filters. Record the source configuration and input file identities
+with an analysis when comparing results or sharing derived embeddings.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../usage/" class="btn btn-neutral float-left" title="Usage"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../devnotes/" class="btn btn-neutral float-right" title="Developer Notes">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../dnanexus/" class="btn btn-neutral float-left" title="DNAnexus Deployment"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../devnotes/" class="btn btn-neutral float-right" title="Maintenance">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -217,7 +181,7 @@ understand your research methodology.</p>
         </span>
     
     
-      <span><a href="../usage/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../dnanexus/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../devnotes/" style="color: #fcfcfc">Next &raquo;</a></span>

@@ -42,16 +42,6 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#set-up">Set Up</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a>
-    </li>
     </ul>
                 </li>
               </ul>
@@ -60,11 +50,15 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="dnanexus/">DNAnexus Deployment</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="data_sources/">Data Sources</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="devnotes/">Developer Notes</a>
+                <li class="toctree-l1"><a class="reference internal" href="devnotes/">Maintenance</a>
                 </li>
               </ul>
       </div>
@@ -92,32 +86,19 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="fused-embedding-pipeline">Fused Embedding Pipeline</h1>
+<p>Integrate GEOM molecular descriptors, LINCS expression signatures, JUMP
+cell-morphology features, and NCI60 drug-response profiles into compound
+embeddings, with ATC and mechanism-of-action prediction QC.</p>
+<ul>
+<li><a href="https://github.com/bhklab/fused-embedding-pipeline#readme">User guide</a>: run an
+  existing applet through the DNAnexus portal or CLI and review its outputs.</li>
+<li><a href="dnanexus/">Deployment guide</a>: build the container and applet and share them
+  with collaborators.</li>
+<li><a href="data_sources/">Data sources</a>: input datasets and configuration.</li>
+<li><a href="devnotes/">Maintenance</a>: source files and deployment updates.</li>
+</ul>
 <p><strong>Authors:</strong> <a href="https://github.com/jbannon">James Bannon</a>, Michael Tran</p>
 <p><strong>Contact:</strong> <a href="mailto:bhklab.jamesbannon@gmail.com">bhklab.jamesbannon@gmail.com</a></p>
-<p><strong>Description:</strong> Setting up for DNA nexus</p>
-<hr />
-<p><a href="https://github.com/prefix-dev/pixi"><img alt="pixi-badge" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json&amp;style=flat-square" /></a>
-<a href="https://github.com/astral-sh/ruff"><img alt="Ruff" src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json&amp;style=flat-square" /></a>
-<a href="https://github.com/squidfunk/mkdocs-material"><img alt="Built with Material for MkDocs" src="https://img.shields.io/badge/mkdocs--material-gray?logo=materialformkdocs&amp;style=flat-square" /></a></p>
-<p><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/bhklab/fused-embedding-pipeline?style=flat-square" />
-<img alt="GitHub issues" src="https://img.shields.io/github/issues/bhklab/fused-embedding-pipeline?style=flat-square" />
-<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/bhklab/fused-embedding-pipeline?style=flat-square" />
-<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/bhklab/fused-embedding-pipeline?style=flat-square" />
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/bhklab/fused-embedding-pipeline?style=flat-square" /></p>
-<h2 id="set-up">Set Up</h2>
-<h3 id="prerequisites">Prerequisites</h3>
-<p>Pixi is required to run this project.
-If you haven't installed it yet, <a href="https://pixi.sh/latest/">follow these instructions</a></p>
-<h3 id="installation">Installation</h3>
-<ol>
-<li>Clone this repository to your local machine</li>
-<li>Navigate to the project directory</li>
-<li>Set up the environment using Pixi:</li>
-</ol>
-<pre><code class="language-bash">pixi install
-</code></pre>
-<h2 id="documentation">Documentation</h2>
-<p>Click <a href="https://bhklab.github.io/fused-embedding-pipeline">here</a> to view the full documentation.</p>
               
             </div>
           </div><footer>
@@ -170,5 +151,5 @@ If you haven't installed it yet, <a href="https://pixi.sh/latest/">follow these 
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-09-23 16:24:16.637993+00:00
+Build Date UTC : 2026-11-17 20:07:14.619416+00:00
 -->
